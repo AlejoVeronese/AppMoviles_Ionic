@@ -1,0 +1,7 @@
+{
+  "name": "AppMoviles_Ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
