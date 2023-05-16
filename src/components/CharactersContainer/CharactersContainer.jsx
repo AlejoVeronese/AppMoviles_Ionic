@@ -1,28 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IonItem, IonLabel, IonList, IonListHeader } from '@ionic/react';
 import { Preferences } from '@capacitor/preferences';
 import { Toast } from '@capacitor/toast'
 const CharactersContainer = () => {
-  const showHelloToast = async () => {
-    await Toast.show({
-      text: 'Hello!',
-    });
-  };
-  showHelloToast();
-  // fetch("https://rickandmortyapi.com/api/character/2")
-  //   .then((response) => response.json())  
-  //   .then((dog) => console.log(dog));
-  // (Preferences.get({key:'name'})).then((value) => {
-  //   Toast.show({
-  //     text: 'Rick ya se encuentra registrado en la cache',
+  // const showHelloToast = async () => {
+  //   await Toast.show({
+  //     text: 'Hello!',
   //   });
-  // },() =>{
-  //   Preferences.set({key:'name', value:'Rick'});
-  //   Toast.show({
-  //     text: 'Se ha registrado a Rick en la cache',
-  //   });
+  // };
+  // showHelloToast();
+  fetch("https://rickandmortyapi.com/api/character/2")
+    .then((response) => response.json())  
+    .then((dog) => console.log(dog));
+  Preferences.get({key:'name'}).then((name) => {
+    if(name.value){
+      console.log(name.value);
+    }else{
+      Preferences.set({key:'name', value:'Rick'})
+      console.log("Se guardo el nombre")
+    }
+  })
 
-  // })
   return (
     <IonList>
       <IonListHeader>
