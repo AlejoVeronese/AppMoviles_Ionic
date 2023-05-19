@@ -5,6 +5,7 @@ import { Toast } from '@capacitor/toast';
 import CharacterCard from '../CharacterCard/CharacterCard';
 const CharactersContainer = () => {
   const [characters,setCharacters] = useState([]);
+  const [getDataStatus, setGetDataStatus] = useState(false);
   useEffect(() => {
     const CheckCache = async () => {
       await Preferences.get({key:'characters'}).then(async (response) => {
@@ -12,25 +13,29 @@ const CharactersContainer = () => {
           setCharacters(JSON.parse(response.value))
         }else{
           let response = await getData()
-          Preferences.set({key:'characters', value:JSON.stringify(response.results)})
-          setCharacters(response.results)
-          
+          if (response.info){
+            Preferences.set({key:'characters', value:JSON.stringify(response.results)})
+            setCharacters(response.results)
         }
+      }
       })
     }
     CheckCache();
   }, [])
   const getData = async () => {
-    try{const response = await fetch("https://rickandmortyapi.com/api/character");
-    const data = await response.json();
-    return data
-      }catch(error){
-      console.log(error)
+    const response = await fetch("https://rickandmortyapi.com/api/character");
+    if(response.status != 200){
       Toast.show({
         text: 'There was an error getting the data',
         duration:"short"
       })
-  }}
+    }else{
+      const data = await response.json();
+      setGetDataStatus(true)
+      return data
+
+    }      
+  }
   const deleteCharacter = async (id) => {
     await Preferences.get({key:'characters'}).then(async (response) => {
       if (response.value){       
@@ -48,12 +53,17 @@ const CharactersContainer = () => {
   }
 
   return (
-    <IonList>
+    <>
+    {getDataStatus === true ? <IonList>
       {characters.map((character,index) => (
+        <IonItem key={index}>
         <CharacterCard 
         character={character} index={index} onDelete={deleteCharacter}/>
+        </IonItem>
       ))}
-    </IonList>
+    </IonList> :null}
+    
+  </>
   );
 }
 

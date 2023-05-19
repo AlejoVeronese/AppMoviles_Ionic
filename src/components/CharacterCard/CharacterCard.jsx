@@ -7,7 +7,7 @@ const CharacterCard = ({ character , index, onDelete}) => {
     
 
 return(
-    <IonItem key={index}>
+    <>
         <IonAvatar slot='start'>
           <img src={character.image} alt={character.name}/>
         </IonAvatar>
@@ -23,11 +23,11 @@ return(
         <IonCardTitle>{character.name}</IonCardTitle>
       </IonCardHeader>
         <IonCardContent>
-        <p>{character.status}</p>
-        <p>{character.species}</p>
-        <p>{character.gender}</p>
-        <p>{character.origin.name}</p>
-        <p>{character.location.name}</p>
+        <p>Status:{character.status}</p>
+        <p>Specie:{character.species}</p>
+        <p>Gender:{character.gender}</p>
+        <p>Origin:{character.origin.name}</p>
+        <p>Actual Location:{character.location.name}</p>
         <IonButton fill="clear" onClick={() => setShowModal(false)}>Close</IonButton>
         </IonCardContent>
         </IonCard>
@@ -50,7 +50,7 @@ return(
         
         </IonAlert>
 
-    </IonItem>
+    </>
     // </IonButton>
 
 )
