@@ -11,6 +11,7 @@ const CharactersContainer = () => {
       await Preferences.get({key:'characters'}).then(async (response) => {
         if (response.value && JSON.parse(response.value).length > 0){
           setCharacters(JSON.parse(response.value))
+          setGetDataStatus(true)
         }else{
           let response = await getData()
           if (response.info){
